@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://UI/ActionInfo.gd" type="Script" id=1]
+
+[node name="ActionInfo" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 1 )
+description_label = NodePath("HBoxContainer/DescriptionLabel")
+info_button = NodePath("HBoxContainer/InfoLinkButton")
+progress_bar = NodePath("ProgressBar")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 1024.0
+margin_bottom = 17.0
+
+[node name="DescriptionLabel" type="Label" parent="HBoxContainer"]
+margin_right = 1024.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+autowrap = true
+
+[node name="InfoLinkButton" type="LinkButton" parent="HBoxContainer"]
+visible = false
+margin_left = 1016.0
+margin_right = 1024.0
+margin_bottom = 19.0
+size_flags_vertical = 0
+text = "?"
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+margin_top = 21.0
+margin_right = 1024.0
+margin_bottom = 45.0
+rect_min_size = Vector2( 0, 24 )
+
+[connection signal="pressed" from="HBoxContainer/InfoLinkButton" to="." method="_on_InfoLinkButton_pressed"]

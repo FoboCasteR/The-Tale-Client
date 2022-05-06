@@ -10,6 +10,21 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Reference",
+"class": "Artifact",
+"language": "GDScript",
+"path": "res://State/Artifact.gd"
+}, {
+"base": "Reference",
+"class": "Bag",
+"language": "GDScript",
+"path": "res://State/Bag.gd"
+}, {
+"base": "Reference",
+"class": "Companion",
+"language": "GDScript",
+"path": "res://State/Companion.gd"
+}, {
+"base": "Reference",
 "class": "HTTPCookie",
 "language": "GDScript",
 "path": "res://Lib/HTTPCookie.gd"
@@ -18,10 +33,55 @@ _global_script_classes=[ {
 "class": "HTTPCookieParser",
 "language": "GDScript",
 "path": "res://Lib/HTTPCookieParser.gd"
+}, {
+"base": "Reference",
+"class": "Hero",
+"language": "GDScript",
+"path": "res://State/Hero.gd"
+}, {
+"base": "Reference",
+"class": "HeroAction",
+"language": "GDScript",
+"path": "res://State/HeroAction.gd"
+}, {
+"base": "Reference",
+"class": "Message",
+"language": "GDScript",
+"path": "res://State/Message.gd"
+}, {
+"base": "Reference",
+"class": "Quest",
+"language": "GDScript",
+"path": "res://State/Quest.gd"
+}, {
+"base": "Reference",
+"class": "Sorters",
+"language": "GDScript",
+"path": "res://Lib/Sorters.gd"
+}, {
+"base": "Reference",
+"class": "Turn",
+"language": "GDScript",
+"path": "res://State/Turn.gd"
+}, {
+"base": "Reference",
+"class": "Utils",
+"language": "GDScript",
+"path": "res://Lib/Utils.gd"
 } ]
 _global_script_class_icons={
+"Artifact": "",
+"Bag": "",
+"Companion": "",
 "HTTPCookie": "",
-"HTTPCookieParser": ""
+"HTTPCookieParser": "",
+"Hero": "",
+"HeroAction": "",
+"Message": "",
+"Quest": "",
+"Sorters": "",
+"Turn": "",
+"Utils": ""
 }
 
 [application]
@@ -35,11 +95,13 @@ config/windows_native_icon="res://Assets/logo.ico"
 [autoload]
 
 GameConfig="*res://GameConfig.gd"
+GameState="*res://State/GameState.gd"
+TheTaleData="*res://Data/TheTaleData.gd"
 TheTaleAPI="*res://Lib/TheTaleAPI.tscn"
 
 [gui]
 
-theme/custom_font="res://DefaultFont.tres"
+theme/custom_font="res://Assets/RobotoRegular.tres"
 
 [physics]
 
@@ -47,4 +109,5 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+2d/snapping/use_gpu_pixel_snap=true
 environment/default_environment="res://default_env.tres"

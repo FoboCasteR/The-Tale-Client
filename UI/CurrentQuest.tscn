@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://UI/CurrentQuest.gd" type="Script" id=1]
+[ext_resource path="res://UI/Quest.tscn" type="PackedScene" id=2]
+
+[node name="CurrentQuest" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="Quest" parent="." instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1024.0
+margin_bottom = 32.0
+
+[node name="Menu" type="MenuButton" parent="."]
+visible = false
+margin_top = 36.0
+margin_right = 1024.0
+margin_bottom = 59.0
+flat = false

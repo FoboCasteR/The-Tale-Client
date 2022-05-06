@@ -1,0 +1,121 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://UI/HeroBaseInfo.gd" type="Script" id=1]
+[ext_resource path="res://UI/LabeledProgressBar.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/HeroAttribute.tscn" type="PackedScene" id=3]
+
+[node name="HeroBaseInfo" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+level_label = NodePath("HBoxContainer/LevelLabel")
+name_label = NodePath("HBoxContainer/NameLabel")
+hp_bar = NodePath("HPBar")
+xp_bar = NodePath("XPBar")
+physical_power_attribute = NodePath("VBoxContainer/PhysicalPowerAttribute")
+magical_power_attribute = NodePath("VBoxContainer/MagicalPowerAttribute")
+money_attribute = NodePath("VBoxContainer/MoneyAttribute")
+might_attribute = NodePath("VBoxContainer/MightAttribute")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 1024.0
+margin_bottom = 17.0
+
+[node name="LevelLabel" type="Label" parent="HBoxContainer"]
+margin_bottom = 17.0
+valign = 1
+
+[node name="NameLabel" type="Label" parent="HBoxContainer"]
+margin_left = 4.0
+margin_right = 1024.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+valign = 1
+autowrap = true
+
+[node name="HPBar" parent="." instance=ExtResource( 2 )]
+margin_top = 21.0
+margin_right = 1024.0
+margin_bottom = 45.0
+percent_visible = false
+
+[node name="XPBar" parent="." instance=ExtResource( 2 )]
+margin_top = 49.0
+margin_right = 1024.0
+margin_bottom = 73.0
+percent_visible = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_top = 77.0
+margin_right = 1024.0
+margin_bottom = 157.0
+size_flags_horizontal = 3
+
+[node name="PhysicalPowerAttribute" parent="VBoxContainer" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1024.0
+margin_bottom = 17.0
+
+[node name="NameLabel" parent="VBoxContainer/PhysicalPowerAttribute" index="0"]
+margin_top = 0.0
+margin_bottom = 17.0
+text = "Физ. сила"
+
+[node name="ValueLabel" parent="VBoxContainer/PhysicalPowerAttribute" index="1"]
+margin_top = 0.0
+margin_bottom = 17.0
+
+[node name="MagicalPowerAttribute" parent="VBoxContainer" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 21.0
+margin_right = 1024.0
+margin_bottom = 38.0
+
+[node name="NameLabel" parent="VBoxContainer/MagicalPowerAttribute" index="0"]
+margin_top = 0.0
+margin_bottom = 17.0
+text = "Маг. сила"
+
+[node name="ValueLabel" parent="VBoxContainer/MagicalPowerAttribute" index="1"]
+margin_top = 0.0
+margin_bottom = 17.0
+
+[node name="MoneyAttribute" parent="VBoxContainer" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 42.0
+margin_right = 1024.0
+margin_bottom = 59.0
+
+[node name="NameLabel" parent="VBoxContainer/MoneyAttribute" index="0"]
+margin_top = 0.0
+margin_bottom = 17.0
+text = "Золото"
+
+[node name="ValueLabel" parent="VBoxContainer/MoneyAttribute" index="1"]
+margin_top = 0.0
+margin_bottom = 17.0
+
+[node name="MightAttribute" parent="VBoxContainer" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 63.0
+margin_right = 1024.0
+margin_bottom = 80.0
+
+[node name="NameLabel" parent="VBoxContainer/MightAttribute" index="0"]
+margin_top = 0.0
+margin_bottom = 17.0
+text = "Могущество"
+
+[node name="ValueLabel" parent="VBoxContainer/MightAttribute" index="1"]
+margin_top = 0.0
+margin_bottom = 17.0
+
+[editable path="VBoxContainer/PhysicalPowerAttribute"]
+[editable path="VBoxContainer/MagicalPowerAttribute"]
+[editable path="VBoxContainer/MoneyAttribute"]
+[editable path="VBoxContainer/MightAttribute"]

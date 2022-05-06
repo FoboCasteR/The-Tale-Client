@@ -1,5 +1,7 @@
 extends Node
 
+# https://docs.the-tale.org/ru/stable/external_api/methods.html
+
 const BASE_URL = "https://the-tale.org"
 const API_CLIENT = "TheTaleClient-dev"
 const DEFAULT_HEADERS = [
@@ -170,10 +172,24 @@ func login(email: String, password: String, _remember: bool = false):
 
 
 func logout():
+	$HTTPRequest.cancel_request()
+
 	return _make_post_request(
 		"/accounts/auth/api/logout",
 		{
 			"api_version": "1.0",
 			"api_client": API_CLIENT,
+		}
+	)
+
+
+func game_info(account: String = "", client_turns: Array = []):
+	return _make_get_request(
+		"/game/api/info",
+		{
+			"api_version": "1.10",
+			"api_client": API_CLIENT,
+			"account": account,
+			"client_turns": PoolStringArray(client_turns).join(",")
 		}
 	)
