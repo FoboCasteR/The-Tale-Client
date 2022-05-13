@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://GameInfo.gd" type="Script" id=1]
+
+[node name="GameInfo" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="LogoutButton" type="Button" parent="."]
+margin_right = 60.0
+margin_bottom = 25.0
+text = "Выйти"
+
+[connection signal="pressed" from="LogoutButton" to="." method="_on_LogoutButton_pressed"]

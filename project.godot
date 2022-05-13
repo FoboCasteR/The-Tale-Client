@@ -8,11 +8,31 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Reference",
+"class": "HTTPCookie",
+"language": "GDScript",
+"path": "res://Lib/HTTPCookie.gd"
+}, {
+"base": "Reference",
+"class": "HTTPCookieParser",
+"language": "GDScript",
+"path": "res://Lib/HTTPCookieParser.gd"
+} ]
+_global_script_class_icons={
+"HTTPCookie": "",
+"HTTPCookieParser": ""
+}
+
 [application]
 
 config/name="The Tale Client"
-run/main_scene="res://GameInfo.tscn"
+run/main_scene="res://Main.tscn"
 config/icon="res://Assets/logo.png"
+
+[autoload]
+
+TheTaleAPI="*res://Lib/TheTaleAPI.tscn"
 
 [gui]
 
