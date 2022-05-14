@@ -32,6 +32,7 @@ config/icon="res://Assets/logo.png"
 
 [autoload]
 
+GameConfig="*res://GameConfig.gd"
 TheTaleAPI="*res://Lib/TheTaleAPI.tscn"
 
 [gui]
