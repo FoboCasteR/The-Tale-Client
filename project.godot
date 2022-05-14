@@ -29,6 +29,8 @@ _global_script_class_icons={
 config/name="The Tale Client"
 run/main_scene="res://Main.tscn"
 config/icon="res://Assets/logo.png"
+config/macos_native_icon="res://Assets/logo.icns"
+config/windows_native_icon="res://Assets/logo.ico"
 
 [autoload]
 
