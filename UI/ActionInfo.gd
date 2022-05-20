@@ -16,7 +16,7 @@ func _exit_tree():
 
 
 func _on_action_changed(action: HeroAction):
-	description_label.text = action.description
+	description_label.text = Utils.upcase_first(action.description)
 	progress_bar.value = action.progress * 100
 
 	if action.meta.get("info_link"):
