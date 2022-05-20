@@ -1,5 +1,7 @@
 extends VBoxContainer
 
+onready var menu_button = $Menu
+
 
 func _ready():
 	GameState.connect("quests_changed", self, "_on_quests_changed")
@@ -14,19 +16,19 @@ func _on_quests_changed(quests: Array):
 	$Quest.quest = current_quest
 
 	# TODO: Rewrite
+	menu_button.get_popup().clear()
+
 	if current_quest.choices.size():
-		$Menu.visible = true
-		$Menu.disabled = false
-		$Menu.text = current_quest.choice if current_quest.choice else "Выбрать поступок"
+		menu_button.visible = true
+		menu_button.disabled = false
+		menu_button.text = current_quest.choice if current_quest.choice else "Выбрать поступок"
 
 		for choice in current_quest.choices:
-			$Menu.get_popup().add_item(choice.description)
+			menu_button.get_popup().add_item(choice.description)
 	else:
-		$Menu.get_popup().clear()
-
 		if current_quest.choice.empty():
-			$Menu.visible = false
+			menu_button.visible = false
 		else:
-			$Menu.visible = true
-			$Menu.disabled = true
-			$Menu.text = current_quest.choice
+			menu_button.visible = true
+			menu_button.disabled = true
+			menu_button.text = current_quest.choice
