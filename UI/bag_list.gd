@@ -1,4 +1,4 @@
-extends "res://UI/ArtifactInfoList.gd"
+extends "res://ui/artifact_info_list.gd"
 
 
 func _ready():

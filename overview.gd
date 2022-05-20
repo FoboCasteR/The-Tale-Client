@@ -34,4 +34,4 @@ func _on_RequestTimer_timeout():
 
 func _on_LogoutButton_pressed():
 	yield(TheTaleAPI.logout(), "completed")
-	get_tree().change_scene("res://Main.tscn")
+	get_tree().change_scene("res://main.tscn")

@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://UI/Diary.tscn" type="PackedScene" id=1]
-[ext_resource path="res://UI/Log.gd" type="Script" id=2]
-[ext_resource path="res://UI/Journal.tscn" type="PackedScene" id=3]
-[ext_resource path="res://UI/Quests.tscn" type="PackedScene" id=4]
+[ext_resource path="res://ui/diary.tscn" type="PackedScene" id=1]
+[ext_resource path="res://ui/log.gd" type="Script" id=2]
+[ext_resource path="res://ui/journal.tscn" type="PackedScene" id=3]
+[ext_resource path="res://ui/quests.tscn" type="PackedScene" id=4]
 
 [node name="Log" type="TabContainer"]
 anchor_right = 1.0

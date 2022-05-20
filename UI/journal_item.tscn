@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://UI/JournalItem.gd" type="Script" id=1]
-[ext_resource path="res://Assets/RobotoBold.tres" type="DynamicFont" id=2]
+[ext_resource path="res://ui/journal_item.gd" type="Script" id=1]
+[ext_resource path="res://assets/roboto_bold.tres" type="DynamicFont" id=2]
 
 [node name="JournalItem" type="PanelContainer"]
 anchor_right = 1.0

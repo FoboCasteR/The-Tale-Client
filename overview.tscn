@@ -1,15 +1,15 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Game.gd" type="Script" id=1]
-[ext_resource path="res://UI/HeroBaseInfo.tscn" type="PackedScene" id=2]
-[ext_resource path="res://UI/CompanionInfo.tscn" type="PackedScene" id=3]
-[ext_resource path="res://UI/TurnInfo.tscn" type="PackedScene" id=4]
-[ext_resource path="res://UI/ActionInfo.tscn" type="PackedScene" id=5]
-[ext_resource path="res://UI/InventoryTabs.tscn" type="PackedScene" id=6]
-[ext_resource path="res://UI/Log.tscn" type="PackedScene" id=7]
-[ext_resource path="res://UI/CurrentQuest.tscn" type="PackedScene" id=8]
+[ext_resource path="res://overview.gd" type="Script" id=1]
+[ext_resource path="res://ui/hero_base_info.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ui/companion_info.tscn" type="PackedScene" id=3]
+[ext_resource path="res://ui/turn_info.tscn" type="PackedScene" id=4]
+[ext_resource path="res://ui/action_info.tscn" type="PackedScene" id=5]
+[ext_resource path="res://ui/inventory_tabs.tscn" type="PackedScene" id=6]
+[ext_resource path="res://ui/log.tscn" type="PackedScene" id=7]
+[ext_resource path="res://ui/current_quest.tscn" type="PackedScene" id=8]
 
-[node name="GameInfo" type="Control"]
+[node name="Overview" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
@@ -58,7 +58,7 @@ size_flags_horizontal = 3
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 7.0
-margin_top = 552.0
+margin_top = 520.0
 margin_right = 331.0
 margin_bottom = 552.0
 size_flags_vertical = 8

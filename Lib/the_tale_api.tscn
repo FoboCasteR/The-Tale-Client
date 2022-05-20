@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://Lib/TheTaleAPI.gd" type="Script" id=1]
+[ext_resource path="res://lib/the_tale_api.gd" type="Script" id=1]
 
 [node name="TheTaleAPI" type="Node"]
 script = ExtResource( 1 )

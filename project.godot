@@ -12,62 +12,62 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "Artifact",
 "language": "GDScript",
-"path": "res://State/Artifact.gd"
+"path": "res://state/artifact.gd"
 }, {
 "base": "Reference",
 "class": "Bag",
 "language": "GDScript",
-"path": "res://State/Bag.gd"
+"path": "res://state/bag.gd"
 }, {
 "base": "Reference",
 "class": "Companion",
 "language": "GDScript",
-"path": "res://State/Companion.gd"
+"path": "res://state/companion.gd"
 }, {
 "base": "Reference",
 "class": "HTTPCookie",
 "language": "GDScript",
-"path": "res://Lib/HTTPCookie.gd"
+"path": "res://lib/http_cookie.gd"
 }, {
 "base": "Reference",
 "class": "HTTPCookieParser",
 "language": "GDScript",
-"path": "res://Lib/HTTPCookieParser.gd"
+"path": "res://lib/http_cookie_parser.gd"
 }, {
 "base": "Reference",
 "class": "Hero",
 "language": "GDScript",
-"path": "res://State/Hero.gd"
+"path": "res://state/hero.gd"
 }, {
 "base": "Reference",
 "class": "HeroAction",
 "language": "GDScript",
-"path": "res://State/HeroAction.gd"
+"path": "res://state/hero_action.gd"
 }, {
 "base": "Reference",
 "class": "Message",
 "language": "GDScript",
-"path": "res://State/Message.gd"
+"path": "res://state/message.gd"
 }, {
 "base": "Reference",
 "class": "Quest",
 "language": "GDScript",
-"path": "res://State/Quest.gd"
+"path": "res://state/quest.gd"
 }, {
 "base": "Reference",
 "class": "Sorters",
 "language": "GDScript",
-"path": "res://Lib/Sorters.gd"
+"path": "res://lib/sorters.gd"
 }, {
 "base": "Reference",
 "class": "Turn",
 "language": "GDScript",
-"path": "res://State/Turn.gd"
+"path": "res://state/turn.gd"
 }, {
 "base": "Reference",
 "class": "Utils",
 "language": "GDScript",
-"path": "res://Lib/Utils.gd"
+"path": "res://lib/utils.gd"
 } ]
 _global_script_class_icons={
 "Artifact": "",
@@ -87,21 +87,21 @@ _global_script_class_icons={
 [application]
 
 config/name="The Tale Client"
-run/main_scene="res://Main.tscn"
-config/icon="res://Assets/logo.png"
-config/macos_native_icon="res://Assets/logo.icns"
-config/windows_native_icon="res://Assets/logo.ico"
+run/main_scene="res://main.tscn"
+config/icon="res://assets/logo.png"
+config/macos_native_icon="res://assets/logo.icns"
+config/windows_native_icon="res://assets/logo.ico"
 
 [autoload]
 
-GameConfig="*res://GameConfig.gd"
-GameState="*res://State/GameState.gd"
-TheTaleData="*res://Data/TheTaleData.gd"
-TheTaleAPI="*res://Lib/TheTaleAPI.tscn"
+GameConfig="*res://game_config.gd"
+GameState="*res://state/game.gd"
+TheTaleData="*res://data/the_tale_data.tscn"
+TheTaleAPI="*res://lib/the_tale_api.tscn"
 
 [gui]
 
-theme/custom_font="res://Assets/RobotoRegular.tres"
+theme/custom_font="res://assets/roboto_regular.tres"
 
 [physics]
 

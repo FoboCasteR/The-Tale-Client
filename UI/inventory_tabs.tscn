@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://UI/InventoryTabs.gd" type="Script" id=1]
-[ext_resource path="res://UI/ArtifactInfoList.tscn" type="PackedScene" id=2]
-[ext_resource path="res://UI/EquipmentList.gd" type="Script" id=3]
-[ext_resource path="res://UI/BagList.gd" type="Script" id=4]
+[ext_resource path="res://ui/inventory_tabs.gd" type="Script" id=1]
+[ext_resource path="res://ui/artifact_info_list.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ui/equipment_list.gd" type="Script" id=3]
+[ext_resource path="res://ui/bag_list.gd" type="Script" id=4]
 
 [node name="InventoryTabs" type="TabContainer"]
 anchor_right = 1.0
