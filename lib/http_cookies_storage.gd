@@ -29,7 +29,7 @@ func get_cookies() -> Array:
 func save():
 	var file := File.new()
 
-	file.open(COOKIES_PATH, File.WRITE)
+	file.open_encrypted_with_pass(COOKIES_PATH, File.WRITE, OS.get_unique_id())
 
 	for cookie_name in _cookies:
 		file.store_line(_cookies[cookie_name].raw)
@@ -43,7 +43,7 @@ func load():
 	if not file.file_exists(COOKIES_PATH):
 		return
 
-	file.open(COOKIES_PATH, File.READ)
+	file.open_encrypted_with_pass(COOKIES_PATH, File.READ, OS.get_unique_id())
 
 	while file.get_position() < file.get_len():
 		var raw_cookie := file.get_line()
