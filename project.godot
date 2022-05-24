@@ -35,6 +35,11 @@ _global_script_classes=[ {
 "path": "res://lib/http_cookie_parser.gd"
 }, {
 "base": "Reference",
+"class": "HTTPCookiesStorage",
+"language": "GDScript",
+"path": "res://lib/http_cookies_storage.gd"
+}, {
+"base": "Reference",
 "class": "Hero",
 "language": "GDScript",
 "path": "res://state/hero.gd"
@@ -75,6 +80,7 @@ _global_script_class_icons={
 "Companion": "",
 "HTTPCookie": "",
 "HTTPCookieParser": "",
+"HTTPCookiesStorage": "",
 "Hero": "",
 "HeroAction": "",
 "Message": "",

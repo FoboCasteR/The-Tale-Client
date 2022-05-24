@@ -8,41 +8,17 @@ const DEFAULT_HEADERS = [
 	"Referer: %s/" % BASE_URL,
 	"User-Agent: TheTaleClient/dev (https://github.com/FoboCasteR/The-Tale-Client)",
 ]
-const COOKIES_PATH = "user://tt_cookies.dat"
 
 var http_client := HTTPClient.new()
-var cookies := {}
+var cookies_storage := HTTPCookiesStorage.new()
 
 
 func _init():
-	_load_cookies()
+	cookies_storage.load()
 
 
-func _save_cookies():
-	var file := File.new()
-
-	file.open(COOKIES_PATH, File.WRITE)
-
-	for cookie_name in cookies:
-		file.store_line(cookies[cookie_name].raw)
-
-	file.close()
-
-
-func _load_cookies():
-	var file := File.new()
-
-	if not file.file_exists(COOKIES_PATH):
-		return
-
-	file.open(COOKIES_PATH, File.READ)
-
-	while file.get_position() < file.get_len():
-		var raw_cookie := file.get_line()
-		var cookie := HTTPCookieParser.parse(raw_cookie)
-		cookies[cookie.name] = cookie
-
-	file.close()
+func _exit_tree():
+	cookies_storage.save()
 
 
 func _query_string_from_dict(query: Dictionary) -> String:
@@ -75,28 +51,15 @@ func _headers_to_dict(headers: Array) -> Dictionary:
 
 
 func _extract_cookies(headers: Dictionary) -> void:
-	var should_save = false
-	var prev_cookies = cookies.duplicate(true)
-
 	for value in headers["set-cookie"]:
-		var cookie := HTTPCookieParser.parse(value)
-		cookies[cookie.name] = cookie
-
-		if not (prev_cookies and prev_cookies[cookie.name] == cookie):
-			should_save = true
-
-	if should_save:
-		_save_cookies()
+		cookies_storage.set_cookie(value)
 
 
 func _set_cookie_list(headers: Array) -> Array:
 	var cookie_list := PoolStringArray()
 
-	for cookie_name in cookies:
-		var cookie := cookies[cookie_name] as HTTPCookie
-
-		if not cookie.is_expired():
-			cookie_list.append(cookie.name + "=" + cookie.value)
+	for cookie in cookies_storage.get_cookies():
+		cookie_list.append(cookie.name + "=" + cookie.value)
 
 	if cookie_list.empty():
 		return headers
@@ -125,7 +88,7 @@ func _make_post_request(url: String, query := {}, custom_headers := [], payload 
 		headers.append_array(
 			["Content-Type: application/x-www-form-urlencoded", "Content-Length: %s" % urlencoded_payload.length()]
 		)
-	headers.append("X-CSRFToken: %s" % cookies["csrftoken"].value)
+	headers.append("X-CSRFToken: %s" % cookies_storage.get_cookie("csrftoken").value)
 
 	$HTTPRequest.request(_build_url(url, query), headers, true, HTTPClient.METHOD_POST, urlencoded_payload)
 
