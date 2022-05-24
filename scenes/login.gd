@@ -32,4 +32,4 @@ func _on_SubmitButton_pressed():
 		var app_name: String = ProjectSettings.get_setting("application/config/name")
 		OS.set_window_title("%s - %s" % [app_name, data.get("account_name")])
 
-		get_tree().change_scene("res://overview.tscn")
+		get_tree().change_scene("res://scenes/game.tscn")

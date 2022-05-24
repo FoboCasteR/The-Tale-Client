@@ -13,8 +13,8 @@ func _ready():
 	if data and data.get("account_id"):
 		OS.set_window_title("%s - %s" % [app_name, data.get("account_name")])
 
-		get_tree().change_scene("res://overview.tscn")
+		get_tree().change_scene("res://scenes/game.tscn")
 	else:
 		OS.set_window_title(app_name)
 
-		get_tree().change_scene("res://login.tscn")
+		get_tree().change_scene("res://scenes/login.tscn")
