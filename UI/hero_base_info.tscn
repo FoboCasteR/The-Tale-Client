@@ -10,6 +10,7 @@ anchor_bottom = 1.0
 script = ExtResource( 1 )
 level_label = NodePath("HBoxContainer/LevelLabel")
 name_label = NodePath("HBoxContainer/NameLabel")
+level_up_button = NodePath("HBoxContainer/LevelUpButton")
 hp_bar = NodePath("HPBar")
 xp_bar = NodePath("XPBar")
 physical_power_attribute = NodePath("VBoxContainer/PhysicalPowerAttribute")
@@ -32,7 +33,15 @@ margin_bottom = 17.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 valign = 1
-autowrap = true
+clip_text = true
+
+[node name="LevelUpButton" type="Button" parent="HBoxContainer"]
+visible = false
+margin_left = 1004.0
+margin_right = 1024.0
+margin_bottom = 23.0
+hint_tooltip = "Доступна новая способность"
+text = "+"
 
 [node name="HPBar" parent="." instance=ExtResource( 2 )]
 margin_top = 21.0
@@ -114,6 +123,8 @@ text = "Могущество"
 [node name="ValueLabel" parent="VBoxContainer/MightAttribute" index="1"]
 margin_top = 0.0
 margin_bottom = 17.0
+
+[connection signal="pressed" from="HBoxContainer/LevelUpButton" to="." method="_on_LevelUpButton_pressed"]
 
 [editable path="VBoxContainer/PhysicalPowerAttribute"]
 [editable path="VBoxContainer/MagicalPowerAttribute"]

@@ -10,6 +10,7 @@ signal messages_changed(messages)
 signal quests_changed(messages)
 
 var is_old := true
+var account_id: int
 var turn := Turn.new()
 var action := HeroAction.new()
 var hero := Hero.new()
@@ -23,11 +24,12 @@ var quests := Array()
 func update_state_from_dict(value: Dictionary) -> void:
 	_update_turn(value.get("turn"))
 
-	var account = value.get("account")
+	var account_info = value.get("account")
 
-	is_old = account.get("is_old")
+	is_old = account_info.get("is_old")
+	account_id = account_info.get("id")
 
-	var hero_data = account.get("hero")
+	var hero_data = account_info.get("hero")
 
 	_update_hero(hero_data)
 
