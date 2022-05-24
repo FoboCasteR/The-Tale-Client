@@ -94,7 +94,7 @@ config/windows_native_icon="res://assets/logo.ico"
 
 [autoload]
 
-GameConfig="*res://game_config.gd"
+GameConfig="*res://lib/game_config.gd"
 GameState="*res://state/game.gd"
 TheTaleData="*res://data/the_tale_data.tscn"
 TheTaleAPI="*res://lib/the_tale_api.tscn"

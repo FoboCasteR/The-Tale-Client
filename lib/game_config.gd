@@ -9,10 +9,7 @@ var test_password: String setget , get_test_password
 
 
 func _ready():
-	var err = config.load(CONFIG_PATH)
-
-	if not err == OK:
-		return
+	config.load(CONFIG_PATH)
 
 
 func set_recent_email(value: String) -> void:
