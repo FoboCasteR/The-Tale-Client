@@ -6,7 +6,6 @@ var client_turns := []
 func _ready():
 	GameState.connect("turn_changed", self, "_on_turn_changed")
 	request_data()
-	$RequestTimer.start()
 
 
 func _exit_tree():
@@ -19,6 +18,8 @@ func request_data():
 
 	if data:
 		GameState.update_state_from_dict(data)
+
+	$RequestTimer.start()
 
 
 func _on_turn_changed(turn: Turn):

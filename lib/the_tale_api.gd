@@ -8,6 +8,7 @@ const DEFAULT_HEADERS = [
 	"Referer: %s/" % BASE_URL,
 	"User-Agent: TheTaleClient/dev (https://github.com/FoboCasteR/The-Tale-Client)",
 ]
+const REQUESTS_GROUP = "http_requests"
 
 var http_client := HTTPClient.new()
 var cookies_storage := HTTPCookiesStorage.new()
@@ -32,6 +33,16 @@ func _build_url(path := "/", query := {}) -> String:
 		result += "?" + _query_string_from_dict(query)
 
 	return result
+
+
+func _build_http_request() -> HTTPRequest:
+	var http_request = HTTPRequest.new()
+
+	http_request.add_to_group(REQUESTS_GROUP)
+	http_request.use_threads = true
+	add_child(http_request)
+
+	return http_request
 
 
 func _headers_to_dict(headers: Array) -> Dictionary:
@@ -74,9 +85,12 @@ func _make_get_request(url: String, query := {}, custom_headers := []):
 
 	headers.append_array(custom_headers)
 
-	$HTTPRequest.request(_build_url(url, query), headers, true, HTTPClient.METHOD_GET)
+	var http_request = _build_http_request()
+	http_request.request(_build_url(url, query), headers, true, HTTPClient.METHOD_GET)
 
-	return callv("_get_data_from_response", yield($HTTPRequest, "request_completed"))
+	var response: Array = yield(http_request, "request_completed")
+	http_request.queue_free()
+	return callv("_get_data_from_response", response)
 
 
 func _make_post_request(url: String, query := {}, custom_headers := [], payload := {}):
@@ -90,9 +104,12 @@ func _make_post_request(url: String, query := {}, custom_headers := [], payload 
 		)
 	headers.append("X-CSRFToken: %s" % cookies_storage.get_cookie("csrftoken").value)
 
-	$HTTPRequest.request(_build_url(url, query), headers, true, HTTPClient.METHOD_POST, urlencoded_payload)
+	var http_request = _build_http_request()
+	http_request.request(_build_url(url, query), headers, true, HTTPClient.METHOD_POST, urlencoded_payload)
 
-	return callv("_get_data_from_response", yield($HTTPRequest, "request_completed"))
+	var response: Array = yield(http_request, "request_completed")
+	http_request.queue_free()
+	return callv("_get_data_from_response", response)
 
 
 func _get_data_from_response(result: int, response_code: int, headers: Array, body: PoolByteArray):
@@ -135,7 +152,8 @@ func login(email: String, password: String, _remember: bool = false):
 
 
 func logout():
-	$HTTPRequest.cancel_request()
+	for node in get_tree().get_nodes_in_group(REQUESTS_GROUP):
+		(node as HTTPRequest).cancel_request()
 
 	return _make_post_request(
 		"/accounts/auth/api/logout",
