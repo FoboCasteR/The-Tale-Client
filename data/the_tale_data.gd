@@ -8,6 +8,7 @@ export(String, FILE, "*.json") var path_to_linguistics
 var enums: Dictionary
 var linguistics: Dictionary
 
+
 func _ready():
 	var f := File.new()
 

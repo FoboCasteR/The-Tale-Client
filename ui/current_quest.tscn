@@ -20,3 +20,4 @@ margin_top = 36.0
 margin_right = 1024.0
 margin_bottom = 59.0
 flat = false
+clip_text = true

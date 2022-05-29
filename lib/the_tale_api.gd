@@ -180,3 +180,9 @@ func game_info(account: String = "", client_turns: Array = []):
 			"client_turns": PoolStringArray(client_turns).join(",")
 		}
 	)
+
+
+func choose(option_uid: String):
+	return _make_post_request(
+		"/game/quests/api/choose", {"api_version": "1.0", "api_client": API_CLIENT, "option_uid": option_uid}
+	)

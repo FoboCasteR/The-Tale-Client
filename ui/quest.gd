@@ -30,6 +30,6 @@ func update_ui():
 				text_label.newline()
 				text_label.add_text(actor.data.description)
 
-	if quest.action and quest.type != 'next-spending':
+	if quest.action and quest.type != "next-spending":
 		text_label.newline()
 		text_label.add_text(Utils.upcase_first(quest.action))
