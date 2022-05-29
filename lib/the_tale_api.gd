@@ -12,6 +12,7 @@ const REQUESTS_GROUP = "http_requests"
 
 var http_client := HTTPClient.new()
 var cookies_storage := HTTPCookiesStorage.new()
+var csrf_token_gen := CSRFTokenGenerator.new()
 
 
 func _init():
@@ -66,11 +67,15 @@ func _extract_cookies(headers: Dictionary) -> void:
 		cookies_storage.set_cookie(value)
 
 
-func _set_cookie_list(headers: Array) -> Array:
+func _add_cookie_to_headers(headers: Array, csrf_token: String = "") -> Array:
 	var cookie_list := PoolStringArray()
+	var session_cookie := cookies_storage.get_cookie("sessionid")
 
-	for cookie in cookies_storage.get_cookies():
-		cookie_list.append(cookie.name + "=" + cookie.value)
+	if session_cookie:
+		cookie_list.append(session_cookie.name + "=" + session_cookie.value)
+
+	if csrf_token:
+		cookie_list.append("csrftoken=%s" % csrf_token)
 
 	if cookie_list.empty():
 		return headers
@@ -81,7 +86,7 @@ func _set_cookie_list(headers: Array) -> Array:
 
 
 func _make_get_request(url: String, query := {}, custom_headers := []):
-	var headers = _set_cookie_list(DEFAULT_HEADERS)
+	var headers = _add_cookie_to_headers(DEFAULT_HEADERS)
 
 	headers.append_array(custom_headers)
 
@@ -95,14 +100,15 @@ func _make_get_request(url: String, query := {}, custom_headers := []):
 
 func _make_post_request(url: String, query := {}, custom_headers := [], payload := {}):
 	var urlencoded_payload := _query_string_from_dict(payload)
-	var headers := _set_cookie_list(DEFAULT_HEADERS)
+	var csrf_token = csrf_token_gen.next()
+	var headers := _add_cookie_to_headers(DEFAULT_HEADERS, csrf_token)
 
 	headers.append_array(custom_headers)
 	if not payload.empty():
 		headers.append_array(
 			["Content-Type: application/x-www-form-urlencoded", "Content-Length: %s" % urlencoded_payload.length()]
 		)
-	headers.append("X-CSRFToken: %s" % cookies_storage.get_cookie("csrftoken").value)
+	headers.append("X-CSRFToken: %s" % csrf_token)
 
 	var http_request = _build_http_request()
 	http_request.request(_build_url(url, query), headers, true, HTTPClient.METHOD_POST, urlencoded_payload)

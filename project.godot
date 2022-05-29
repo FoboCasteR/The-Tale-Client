@@ -20,6 +20,11 @@ _global_script_classes=[ {
 "path": "res://state/bag.gd"
 }, {
 "base": "Reference",
+"class": "CSRFTokenGenerator",
+"language": "GDScript",
+"path": "res://lib/csrf_token_generator.gd"
+}, {
+"base": "Reference",
 "class": "Companion",
 "language": "GDScript",
 "path": "res://state/companion.gd"
@@ -77,6 +82,7 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "Artifact": "",
 "Bag": "",
+"CSRFTokenGenerator": "",
 "Companion": "",
 "HTTPCookie": "",
 "HTTPCookieParser": "",
