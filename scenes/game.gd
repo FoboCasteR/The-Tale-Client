@@ -36,3 +36,7 @@ func _on_RequestTimer_timeout():
 func _on_LogoutButton_pressed():
 	yield(TheTaleAPI.logout(), "completed")
 	get_tree().change_scene("res://main.tscn")
+
+
+func _on_OpenBrowserButton_pressed():
+	OS.shell_open("https://the-tale.org/game")
