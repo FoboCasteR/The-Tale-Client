@@ -10,7 +10,7 @@ script = ExtResource( 1 )
 name_label = NodePath("HBoxContainer/NameLabel")
 physical_power_label = NodePath("HBoxContainer/PPowerLabel")
 magical_power_label = NodePath("HBoxContainer/MPowerLabel")
-rarity_colors = [ Color( 1, 1, 1, 1 ), Color( 0, 0.498039, 1, 1 ), Color( 0.498039, 0, 1, 1 ) ]
+integrity_label = NodePath("HBoxContainer/IntegrityLabel")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 margin_left = 7.0
@@ -19,11 +19,16 @@ margin_right = 1017.0
 margin_bottom = 24.0
 
 [node name="NameLabel" type="Label" parent="HBoxContainer"]
-margin_right = 1002.0
+margin_right = 998.0
 margin_bottom = 17.0
 size_flags_horizontal = 3
 valign = 1
 clip_text = true
+
+[node name="IntegrityLabel" type="Label" parent="HBoxContainer"]
+margin_left = 1002.0
+margin_right = 1002.0
+margin_bottom = 17.0
 
 [node name="PPowerLabel" type="Label" parent="HBoxContainer"]
 margin_left = 1006.0
