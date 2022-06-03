@@ -1,10 +1,7 @@
 extends Control
 
 export(NodePath) onready var description_label = get_node(description_label)
-export(NodePath) onready var info_button = get_node(info_button)
 export(NodePath) onready var progress_bar = get_node(progress_bar)
-
-var url: String
 
 
 func _ready():
@@ -16,16 +13,21 @@ func _exit_tree():
 
 
 func _on_action_changed(action: HeroAction):
-	description_label.text = Utils.upcase_first(action.description)
-	progress_bar.value = action.progress * 100
+	description_label.clear()
+	description_label.add_text(Utils.upcase_first(action.description))
+
+	if action.meta.get("is_boss"):
+		description_label.add_text(' ★')
 
 	if action.meta.get("info_link"):
-		info_button.visible = true
-		url = TheTaleAPI.BASE_URL + action.meta.get("info_link")
-	else:
-		info_button.visible = false
-		url = ""
+		description_label.add_text(' ')
+		description_label.push_meta(TheTaleAPI.BASE_URL + action.meta.get("info_link"))
+		description_label.add_text('?')
+		description_label.pop()
+		# ★
+
+	progress_bar.value = action.progress * 100
 
 
-func _on_InfoLinkButton_pressed():
-	OS.shell_open(url)
+func _on_DescriptionLabel_meta_clicked(meta):
+	OS.shell_open(meta)
