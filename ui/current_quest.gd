@@ -4,12 +4,12 @@ onready var menu_button = $Menu
 
 
 func _ready():
-	GameState.connect("quests_changed", self, "_on_quests_changed")
+	EventBus.connect("quests_changed", self, "_on_quests_changed")
 	menu_button.get_popup().connect("id_pressed", self, "_on_choice_made")
 
 
 func _exit_tree():
-	GameState.disconnect("quests_changed", self, "_on_quests_changed")
+	EventBus.disconnect("quests_changed", self, "_on_quests_changed")
 
 
 func _on_quests_changed(quests: Array):
@@ -37,10 +37,9 @@ func _on_quests_changed(quests: Array):
 
 
 func _on_choice_made(id: int):
-	# TODO: Rewrite
 	var choice = GameState.quests.back().choices[id]
 
-	TheTaleAPI.choose(choice.id)
+	EventBus.emit_signal("quest_choice_made", choice)
 
 	menu_button.disabled = true
 	menu_button.text = choice.description

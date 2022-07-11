@@ -7,11 +7,11 @@ export(NodePath) onready var xp_bar = get_node(xp_bar)
 
 
 func _ready():
-	GameState.connect("companion_changed", self, "_on_companion_changed")
+	EventBus.connect("companion_changed", self, "_on_companion_changed")
 
 
 func _exit_tree():
-	GameState.disconnect("companion_changed", self, "_on_companion_changed")
+	EventBus.disconnect("companion_changed", self, "_on_companion_changed")
 
 
 func _on_companion_changed(companion: Companion):

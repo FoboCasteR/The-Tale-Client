@@ -1,33 +1,31 @@
 extends Node
 
-signal turn_changed(turn)
-signal action_changed(action)
-signal hero_changed(hero)
-signal companion_changed(companion)
-signal equipment_changed(artifacts)
-signal bag_changed(artifacts)
-signal messages_changed(messages)
-signal quests_changed(messages)
-
-var is_old := true
-var account_id: int
-var turn := Turn.new()
+var account
 var action := HeroAction.new()
-var hero := Hero.new()
+var bag := Bag.new()
 var companion := Companion.new()
 var equipment := Array()
-var bag := Bag.new()
+var hero := Hero.new()
+var is_old := true
 var messages := Array()
 var quests := Array()
+var turn := Turn.new()
 
 
-func update_state_from_dict(value: Dictionary) -> void:
+func _ready():
+	EventBus.connect("account_changed", self, "_set_account")
+	EventBus.connect("server_state_updated", self, "_set_state")
+	EventBus.connect("session_ended", self, "_reset_state")
+
+
+func _set_account(value):
+	account = value
+
+
+func _set_state(value: Dictionary) -> void:
 	_update_turn(value.get("turn"))
 
 	var account_info = value.get("account")
-
-	is_old = account_info.get("is_old")
-	account_id = account_info.get("id")
 
 	var hero_data = account_info.get("hero")
 
@@ -61,26 +59,38 @@ func update_state_from_dict(value: Dictionary) -> void:
 		_update_quests(hero_data.get("quests"))
 
 
+func _reset_state():
+	account = null
+	action = HeroAction.new()
+	bag = Bag.new()
+	companion = Companion.new()
+	equipment = Array()
+	hero = Hero.new()
+	messages = Array()
+	quests = Array()
+	turn = Turn.new()
+
+
 func _update_turn(value: Dictionary):
 	turn.set_from_json(value)
-	emit_signal("turn_changed", turn)
+	EventBus.emit_signal("turn_changed", turn)
 
 
 func _update_action(value: Dictionary):
 	action.set_from_json(value)
-	emit_signal("action_changed", action)
+	EventBus.emit_signal("action_changed", action)
 
 
 func _update_hero(value: Dictionary):
 	hero.set_from_json(value)
-	emit_signal("hero_changed", hero)
+	EventBus.emit_signal("hero_changed", hero)
 
 
 func _update_companion(present: bool, data: Dictionary = {}):
 	companion.present = present
 	if present:
 		companion.set_from_json(data)
-	emit_signal("companion_changed", companion)
+	EventBus.emit_signal("companion_changed", companion)
 
 
 func _update_equipment(value: Dictionary):
@@ -91,7 +101,7 @@ func _update_equipment(value: Dictionary):
 		artifact.set_from_json(value[key])
 		equipment.append(artifact)
 
-	emit_signal("equipment_changed", equipment)
+	EventBus.emit_signal("equipment_changed", equipment)
 
 
 func _update_bag(bag_data: Dictionary, hero_data: Dictionary):
@@ -108,7 +118,7 @@ func _update_bag(bag_data: Dictionary, hero_data: Dictionary):
 
 	bag.items.sort_custom(Sorters, "artifacts_by_name")
 
-	emit_signal("bag_changed", bag)
+	EventBus.emit_signal("bag_changed", bag)
 
 
 func _update_messages(messages_data: Array):
@@ -121,7 +131,7 @@ func _update_messages(messages_data: Array):
 
 	messages.invert()
 
-	emit_signal("messages_changed", messages)
+	EventBus.emit_signal("messages_changed", messages)
 
 
 func _update_quests(quests_data: Dictionary):
@@ -135,15 +145,4 @@ func _update_quests(quests_data: Dictionary):
 			quest.set_from_json(quest_data)
 			quests.append(quest)
 
-	emit_signal("quests_changed", quests)
-
-
-func reset():
-	turn = Turn.new()
-	action = HeroAction.new()
-	hero = Hero.new()
-	companion = Companion.new()
-	equipment = Array()
-	bag = Bag.new()
-	messages = Array()
-	quests = Array()
+	EventBus.emit_signal("quests_changed", quests)

@@ -9,6 +9,16 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Resource",
+"class": "Account",
+"language": "GDScript",
+"path": "res://state/account.gd"
+}, {
+"base": "Reference",
+"class": "AccountsManager",
+"language": "GDScript",
+"path": "res://lib/accounts_manager.gd"
+}, {
 "base": "Reference",
 "class": "Artifact",
 "language": "GDScript",
@@ -69,6 +79,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://lib/sorters.gd"
 }, {
+"base": "Node",
+"class": "TheTaleAPI",
+"language": "GDScript",
+"path": "res://lib/the_tale_api.gd"
+}, {
 "base": "Reference",
 "class": "Turn",
 "language": "GDScript",
@@ -80,6 +95,8 @@ _global_script_classes=[ {
 "path": "res://lib/utils.gd"
 } ]
 _global_script_class_icons={
+"Account": "",
+"AccountsManager": "",
 "Artifact": "",
 "Bag": "",
 "CSRFTokenGenerator": "",
@@ -92,6 +109,7 @@ _global_script_class_icons={
 "Message": "",
 "Quest": "",
 "Sorters": "",
+"TheTaleAPI": "",
 "Turn": "",
 "Utils": ""
 }
@@ -106,10 +124,10 @@ config/windows_native_icon="res://assets/logo.ico"
 
 [autoload]
 
+EventBus="*res://event_bus.gd"
 GameConfig="*res://lib/game_config.gd"
 GameState="*res://state/game.gd"
 TheTaleData="*res://data/the_tale_data.tscn"
-TheTaleAPI="*res://lib/the_tale_api.tscn"
 
 [gui]
 

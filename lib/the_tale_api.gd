@@ -1,3 +1,4 @@
+class_name TheTaleAPI
 extends Node
 
 # https://docs.the-tale.org/ru/stable/external_api/methods.html
@@ -11,16 +12,56 @@ const DEFAULT_HEADERS = [
 const REQUESTS_GROUP = "http_requests"
 
 var http_client := HTTPClient.new()
-var cookies_storage := HTTPCookiesStorage.new()
 var csrf_token_gen := CSRFTokenGenerator.new()
+var session_id: String
 
 
-func _init():
-	cookies_storage.load()
+class Response:
+	var status: int
+	var headers: Array
+	var body setget set_body
+
+	var _cookies: Dictionary = {}
+	var _headers_dict: Dictionary = {}
+
+	func is_success():
+		return status >= 200 and status < 300
+
+	func headers_as_dict():
+		if not _headers_dict:
+			for header in headers:
+				var kv := (header as String).split(":", true, 1)
+				var key := (kv[0] as String).to_lower()
+				var value := kv[1].strip_edges()
+
+				if _headers_dict.has(key):
+					_headers_dict[key].append(value)
+				else:
+					_headers_dict[key] = [value]
+
+		return _headers_dict
+
+	func cookies():
+		if not _cookies:
+			for value in headers_as_dict().get("set-cookie"):
+				var cookie = HTTPCookieParser.parse(value)
+				_cookies[cookie.name] = cookie
+
+		return _cookies
+
+	func set_body(value: PoolByteArray):
+		var body_str = value.get_string_from_utf8()
+		var pr = JSON.parse(body_str)
+
+		if pr.error == OK:
+			body = pr.result
 
 
-func _exit_tree():
-	cookies_storage.save()
+class NullResponse:
+	extends Response
+
+	func is_success():
+		return false
 
 
 func _query_string_from_dict(query: Dictionary) -> String:
@@ -46,33 +87,11 @@ func _build_http_request() -> HTTPRequest:
 	return http_request
 
 
-func _headers_to_dict(headers: Array) -> Dictionary:
-	var result = {}
-
-	for header in headers:
-		var kv := (header as String).split(":", true, 1)
-		var key := (kv[0] as String).to_lower()
-		var value := kv[1].strip_edges()
-
-		if result.has(key):
-			result[key].append(value)
-		else:
-			result[key] = [value]
-
-	return result
-
-
-func _extract_cookies(headers: Dictionary) -> void:
-	for value in headers["set-cookie"]:
-		cookies_storage.set_cookie(value)
-
-
 func _add_cookie_to_headers(headers: Array, csrf_token: String = "") -> Array:
 	var cookie_list := PoolStringArray()
-	var session_cookie := cookies_storage.get_cookie("sessionid")
 
-	if session_cookie:
-		cookie_list.append(session_cookie.name + "=" + session_cookie.value)
+	if session_id:
+		cookie_list.append("sessionid=%s" % session_id)
 
 	if csrf_token:
 		cookie_list.append("csrftoken=%s" % csrf_token)
@@ -95,7 +114,7 @@ func _make_get_request(url: String, query := {}, custom_headers := []):
 
 	var response: Array = yield(http_request, "request_completed")
 	http_request.queue_free()
-	return callv("_get_data_from_response", response)
+	return callv("_build_response", response)
 
 
 func _make_post_request(url: String, query := {}, custom_headers := [], payload := {}):
@@ -115,37 +134,27 @@ func _make_post_request(url: String, query := {}, custom_headers := [], payload 
 
 	var response: Array = yield(http_request, "request_completed")
 	http_request.queue_free()
-	return callv("_get_data_from_response", response)
+	return callv("_build_response", response)
 
 
-func _get_data_from_response(result: int, response_code: int, headers: Array, body: PoolByteArray):
+func _build_response(result: int, response_code: int, headers: Array, body: PoolByteArray):
 	if result != HTTPRequest.RESULT_SUCCESS:
-		return
+		return NullResponse.new()
 
-	var headers_dict = _headers_to_dict(headers)
+	var response = Response.new()
 
-	print_debug("[%s] - %s" % [response_code, headers_dict])
+	response.status = response_code
+	response.headers = headers
+	response.body = body
 
-	_extract_cookies(headers_dict)
-
-	if response_code >= 200 and response_code < 300:
-		var body_str = body.get_string_from_utf8()
-		var pr = JSON.parse(body_str)
-
-		if pr.error == OK:
-			print_debug(pr.result)
-
-			if pr.result["status"] == "ok":
-				return pr.result["data"]
-		else:
-			print_debug(body_str)
+	return response
 
 
 func info():
 	return _make_get_request("/api/info", {"api_version": "1.1", "api_client": API_CLIENT})
 
 
-func login(email: String, password: String, _remember: bool = false):
+func login(email: String, password: String):
 	return _make_post_request(
 		"/accounts/auth/api/login",
 		{
@@ -153,7 +162,7 @@ func login(email: String, password: String, _remember: bool = false):
 			"api_client": API_CLIENT,
 		},
 		[],
-		{"email": email, "password": password}
+		{"email": email, "password": password, "remember": "1"}
 	)
 
 

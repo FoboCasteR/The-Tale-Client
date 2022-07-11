@@ -2,11 +2,11 @@ extends "res://ui/artifact_info_list.gd"
 
 
 func _ready():
-	GameState.connect("bag_changed", self, "_on_bag_changed")
+	EventBus.connect("bag_changed", self, "_on_bag_changed")
 
 
 func _exit_tree():
-	GameState.disconnect("bag_changed", self, "_on_bag_changed")
+	EventBus.disconnect("bag_changed", self, "_on_bag_changed")
 
 
 func _on_bag_changed(bag: Bag):

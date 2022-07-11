@@ -6,11 +6,11 @@ onready var list := $List
 
 
 func _ready():
-	GameState.connect("messages_changed", self, "_on_messages_changed")
+	EventBus.connect("messages_changed", self, "_on_messages_changed")
 
 
 func _exit_tree():
-	GameState.disconnect("messages_changed", self, "_on_messages_changed")
+	EventBus.disconnect("messages_changed", self, "_on_messages_changed")
 
 
 func _on_messages_changed(messages: Array):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://ui/turn_info.tscn" type="PackedScene" id=1]
 [ext_resource path="res://ui/action_info.tscn" type="PackedScene" id=2]
@@ -8,15 +8,14 @@
 [ext_resource path="res://ui/current_quest.tscn" type="PackedScene" id=6]
 [ext_resource path="res://ui/inventory_tabs.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scenes/game.gd" type="Script" id=8]
+[ext_resource path="res://state/state_updater.tscn" type="PackedScene" id=9]
 
 [node name="Game" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 8 )
 
-[node name="RequestTimer" type="Timer" parent="."]
-wait_time = 10.0
-one_shot = true
+[node name="StateUpdater" parent="." instance=ExtResource( 9 )]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
@@ -81,13 +80,13 @@ margin_bottom = 552.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 325.0
-margin_bottom = 45.0
+margin_bottom = 46.0
 size_flags_vertical = 1
 
 [node name="Log" parent="VBoxContainer/HBoxContainer/MiddleGroup/VBoxContainer" instance=ExtResource( 5 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 49.0
+margin_top = 50.0
 margin_right = 325.0
 margin_bottom = 545.0
 
@@ -128,17 +127,16 @@ text = "Открыть в браузере"
 [node name="TurnInfo" parent="VBoxContainer/PanelContainer/HBoxContainer" instance=ExtResource( 1 )]
 margin_left = 149.0
 margin_top = 3.0
-margin_right = 951.0
+margin_right = 880.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 align = 2
 
-[node name="LogoutButton" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer"]
-margin_left = 955.0
+[node name="ChangeAccountButton" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+margin_left = 884.0
 margin_right = 1010.0
 margin_bottom = 23.0
-text = "Выйти"
+text = "Сменить аккаунт"
 
-[connection signal="timeout" from="RequestTimer" to="." method="_on_RequestTimer_timeout"]
 [connection signal="pressed" from="VBoxContainer/PanelContainer/HBoxContainer/OpenBrowserButton" to="." method="_on_OpenBrowserButton_pressed"]
-[connection signal="pressed" from="VBoxContainer/PanelContainer/HBoxContainer/LogoutButton" to="." method="_on_LogoutButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/PanelContainer/HBoxContainer/ChangeAccountButton" to="." method="_on_ChangeAccountButton_pressed"]

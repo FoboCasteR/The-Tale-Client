@@ -22,14 +22,29 @@ func _ready():
 func _on_SubmitButton_pressed():
 	submit_button_node.disabled = true
 
-	var data = yield(TheTaleAPI.login(email_edit_node.text, password_edit_node.text, false), "completed")
+	var response = yield($TheTaleAPI.login(email_edit_node.text, password_edit_node.text), "completed")
 
-	submit_button_node.disabled = false
-
-	if data and data.get("account_id"):
+	if response.is_success() and response.body.get("status") == "ok":
 		GameConfig.recent_email = email_edit_node.text
 
 		var app_name: String = ProjectSettings.get_setting("application/config/name")
-		OS.set_window_title("%s - %s" % [app_name, data.get("account_name")])
+		OS.set_window_title("%s - %s" % [app_name, response.body.get("data").get("account_name")])
 
+		var account_data = response.body.get("data")
+		var account = Account.new()
+		account.id = account_data.get("account_id")
+		account.name = account_data.get("account_name")
+		account.session_expires_at = account_data.get("session_expire_at")
+		account.session_id = response.cookies().get("sessionid").value
+
+		var account_manager = AccountsManager.new()
+		account_manager.add_account(account)
+
+		EventBus.emit_signal("account_changed", account)
 		get_tree().change_scene("res://scenes/game.tscn")
+	else:
+		submit_button_node.disabled = false
+
+
+func _on_BackButton_pressed():
+	get_tree().change_scene("res://scenes/accounts.tscn")

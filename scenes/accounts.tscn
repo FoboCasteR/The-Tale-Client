@@ -1,0 +1,58 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://ui/account.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/accounts.gd" type="Script" id=2]
+[ext_resource path="res://lib/the_tale_api.gd" type="Script" id=3]
+
+[node name="PanelContainer" type="PanelContainer"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -256.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = -8.0
+rect_min_size = Vector2( 240, 0 )
+size_flags_vertical = 3
+script = ExtResource( 2 )
+account_scene = ExtResource( 1 )
+accounts_list_node = NodePath("VBoxContainer/ScrollContainer/VBoxContainer")
+remove_account_node = NodePath("VBoxContainer/VBoxContainer2/RemoveAccountButton")
+
+[node name="TheTaleAPI" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 241.0
+margin_bottom = 577.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+margin_right = 234.0
+margin_bottom = 516.0
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
+margin_right = 234.0
+size_flags_horizontal = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer"]
+margin_top = 520.0
+margin_right = 234.0
+margin_bottom = 570.0
+
+[node name="AddAccountButton" type="Button" parent="VBoxContainer/VBoxContainer2"]
+margin_right = 234.0
+margin_bottom = 23.0
+text = "Добавить аккаунт"
+
+[node name="RemoveAccountButton" type="Button" parent="VBoxContainer/VBoxContainer2"]
+margin_top = 27.0
+margin_right = 234.0
+margin_bottom = 50.0
+disabled = true
+text = "Удалить аккаунт"
+
+[connection signal="pressed" from="VBoxContainer/VBoxContainer2/AddAccountButton" to="." method="_on_AddAccountButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/VBoxContainer2/RemoveAccountButton" to="." method="_on_RemoveAccountButton_pressed"]

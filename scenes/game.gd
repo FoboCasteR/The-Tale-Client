@@ -1,41 +1,22 @@
 extends Control
 
-var client_turns := []
-
 
 func _ready():
-	GameState.connect("turn_changed", self, "_on_turn_changed")
-	request_data()
+	var app_name: String = ProjectSettings.get_setting("application/config/name")
+	var title = "%s - %s" % [app_name, GameState.account.name]
+
+	if OS.is_debug_build():
+		title += " (DEBUG)"
+
+	OS.set_window_title(title)
 
 
 func _exit_tree():
-	GameState.disconnect("turn_changed", self, "_on_turn_changed")
-	GameState.reset()
+	EventBus.emit_signal("session_ended")
 
 
-func request_data():
-	var data = yield(TheTaleAPI.game_info("", client_turns), "completed")
-
-	if data:
-		GameState.update_state_from_dict(data)
-
-	$RequestTimer.start()
-
-
-func _on_turn_changed(turn: Turn):
-	client_turns.append(turn.get("number"))
-
-	if client_turns.size() > 2:
-		client_turns = client_turns.slice(1, 2)
-
-
-func _on_RequestTimer_timeout():
-	request_data()
-
-
-func _on_LogoutButton_pressed():
-	yield(TheTaleAPI.logout(), "completed")
-	get_tree().change_scene("res://main.tscn")
+func _on_ChangeAccountButton_pressed():
+	get_tree().change_scene("res://scenes/accounts.tscn")
 
 
 func _on_OpenBrowserButton_pressed():

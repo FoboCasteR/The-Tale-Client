@@ -6,11 +6,11 @@ onready var list := $List
 
 
 func _ready():
-	GameState.connect("quests_changed", self, "_on_quests_changed")
+	EventBus.connect("quests_changed", self, "_on_quests_changed")
 
 
 func _exit_tree():
-	GameState.disconnect("quests_changed", self, "_on_quests_changed")
+	EventBus.disconnect("quests_changed", self, "_on_quests_changed")
 
 
 func _on_quests_changed(quests: Array):

@@ -12,11 +12,11 @@ export(NodePath) onready var might_attribute = get_node(might_attribute)
 
 
 func _ready():
-	GameState.connect("hero_changed", self, "_on_hero_changed")
+	EventBus.connect("hero_changed", self, "_on_hero_changed")
 
 
 func _exit_tree():
-	GameState.disconnect("hero_changed", self, "_on_hero_changed")
+	EventBus.disconnect("hero_changed", self, "_on_hero_changed")
 
 
 func _on_hero_changed(hero: Hero):
