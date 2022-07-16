@@ -20,8 +20,6 @@ func _ready():
 		account_node.connect("account_selected", self, "_on_account_selected")
 		account_node.connect("account_confirmed", self, "_on_account_confirmed")
 
-	print_debug(self.get_incoming_connections())
-
 
 func _on_AddAccountButton_pressed():
 	get_tree().change_scene("res://scenes/login.tscn")
