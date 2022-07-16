@@ -195,3 +195,7 @@ func choose(option_uid: String):
 	return _make_post_request(
 		"/game/quests/api/choose", {"api_version": "1.0", "api_client": API_CLIENT, "option_uid": option_uid}
 	)
+
+
+func diary():
+	return _make_get_request("/game/api/diary", {"api_version": "1.0", "api_client": API_CLIENT})

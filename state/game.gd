@@ -4,10 +4,11 @@ var account
 var action := HeroAction.new()
 var bag := Bag.new()
 var companion := Companion.new()
+var diary_messages := Array()
+var diary_version := 0
 var equipment := Array()
 var hero := Hero.new()
-var is_old := true
-var messages := Array()
+var journal_messages := Array()
 var quests := Array()
 var turn := Turn.new()
 
@@ -16,6 +17,7 @@ func _ready():
 	EventBus.connect("account_changed", self, "_set_account")
 	EventBus.connect("server_state_updated", self, "_set_state")
 	EventBus.connect("session_ended", self, "_reset_state")
+	EventBus.connect("diary_updated", self, "_set_diary")
 
 
 func _set_account(value):
@@ -23,12 +25,14 @@ func _set_account(value):
 
 
 func _set_state(value: Dictionary) -> void:
-	_update_turn(value.get("turn"))
-
 	var account_info = value.get("account")
+
+	if account_info.get("is_old"):
+		return
 
 	var hero_data = account_info.get("hero")
 
+	_update_turn(value.get("turn"))
 	_update_hero(hero_data)
 
 	var action_data = hero_data.get("action")
@@ -45,7 +49,7 @@ func _set_state(value: Dictionary) -> void:
 
 	var messages_data = hero_data.get("messages")
 	if messages_data:
-		_update_messages(messages_data)
+		_update_journal_messages(messages_data)
 
 	if hero_data.has("companion"):
 		var companion_data = hero_data.get("companion")
@@ -58,15 +62,40 @@ func _set_state(value: Dictionary) -> void:
 	if hero_data.has("quests"):
 		_update_quests(hero_data.get("quests"))
 
+	var diary_data = int(hero_data.get("diary"))
+	if diary_data and diary_data != diary_version:
+		diary_version = diary_data
+		EventBus.emit_signal("diary_version_changed", diary_version)
+
+
+func _set_diary(value: Dictionary):
+	if value.get("version") != diary_version:
+		return
+
+	diary_messages.clear()
+
+	var messages_data = value.get("messages")
+
+	for message_data in messages_data:
+		var message = DiaryMessage.new()
+		message.set_from_json(message_data)
+		diary_messages.append(message)
+
+	diary_messages.invert()
+
+	EventBus.emit_signal("diary_messages_changed", diary_messages)
+
 
 func _reset_state():
 	account = null
 	action = HeroAction.new()
 	bag = Bag.new()
 	companion = Companion.new()
+	diary_version = 0
+	diary_messages = Array()
 	equipment = Array()
 	hero = Hero.new()
-	messages = Array()
+	journal_messages = Array()
 	quests = Array()
 	turn = Turn.new()
 
@@ -121,17 +150,17 @@ func _update_bag(bag_data: Dictionary, hero_data: Dictionary):
 	EventBus.emit_signal("bag_changed", bag)
 
 
-func _update_messages(messages_data: Array):
-	messages.clear()
+func _update_journal_messages(messages_data: Array):
+	journal_messages.clear()
 
 	for message_data in messages_data:
-		var message = Message.new()
+		var message = JournalMessage.new()
 		message.set_from_json(message_data)
-		messages.append(message)
+		journal_messages.append(message)
 
-	messages.invert()
+	journal_messages.invert()
 
-	EventBus.emit_signal("messages_changed", messages)
+	EventBus.emit_signal("journal_messages_changed", journal_messages)
 
 
 func _update_quests(quests_data: Dictionary):

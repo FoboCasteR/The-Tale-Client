@@ -1,18 +1,22 @@
-extends PanelContainer
+extends Node
 
-var message: JournalMessage setget set_message
+var message: DiaryMessage setget set_message
 
 onready var text_label = $TextLabel
 
 
-func set_message(value: JournalMessage):
+func set_message(value: DiaryMessage):
 	message = value
 	call_deferred("update_ui")
 
 
 func update_ui():
 	text_label.clear()
-	text_label.add_text(message.text)
+	text_label.add_text(Utils.upcase_first(message.position))
+	text_label.newline()
+	text_label.add_text("%s %s" % [message.time, message.date])
+	text_label.newline()
+	text_label.add_text(message.message)
 
 	var template = TheTaleData.linguistics.get(message.type)
 	if template:

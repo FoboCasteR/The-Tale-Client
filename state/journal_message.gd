@@ -1,9 +1,9 @@
-class_name Message
+class_name JournalMessage
 
 var timestamp: float
 var time: String
 var text: String
-var type: int = -1  # Null placeholder
+var type: String
 var data: Dictionary
 
 
@@ -14,4 +14,4 @@ func set_from_json(value: Array):
 	data = value[4]
 
 	if value[3]:
-		type = value[3]
+		type = str(value[3])

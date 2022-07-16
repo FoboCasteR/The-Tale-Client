@@ -1,4 +1,4 @@
-extends ScrollContainer
+extends Node
 
 export(PackedScene) var item_scene
 
@@ -6,11 +6,11 @@ onready var list := $List
 
 
 func _ready():
-	EventBus.connect("journal_messages_changed", self, "_on_messages_changed")
+	EventBus.connect("diary_messages_changed", self, "_on_messages_changed")
 
 
 func _exit_tree():
-	EventBus.disconnect("journal_messages_changed", self, "_on_messages_changed")
+	EventBus.disconnect("diary_messages_changed", self, "_on_messages_changed")
 
 
 func _on_messages_changed(messages: Array):
